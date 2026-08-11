@@ -1,7 +1,8 @@
 namespace DepremApi.DTOs;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Text.Json; //JSONı okuyabilmek için
+using System.Text.Json.Serialization; //JSON & c# eşleştirmek için
 
+//DTO=Data Transfer Object
 public class DepremDto
 {
     [JsonPropertyName("location")] //JSON'daki "location" alanını bendeki Konum ile eşler

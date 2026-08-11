@@ -1,13 +1,14 @@
+// accept GET request, call DepremService, send response to F.END
 using DepremApi.Services;
 using DepremApi.DTOs;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc; //MVC
 
 namespace DepremApi.Controllers;
 
 [ApiController] 
-[Route("api/[controller]")]
+[Route("api/[controller]")] // URL pattern (api/Deprem)
 
-public class DepremController // API'nin deprem verilerini yönetir
+public class DepremController: ControllerBase // receives GET request,calls DepremService,response
 
 {
     private readonly DepremService _depremService;
@@ -19,8 +20,20 @@ public class DepremController // API'nin deprem verilerini yönetir
    
     [HttpGet]
     
-    public async Task<List<DepremDto>> GetDepremlerAsync()
+    public async Task<IActionResult> DepremleriGetirAsync(
+        [FromQuery] string? startDate, 
+        [FromQuery] string? endDate,
+        CancellationToken cancellationToken)
     {
-        return await _depremService.DepremleriGetirAsync();
+       try
+        {
+            var depremler = await _depremService.DepremleriGetirAsync(startDate, endDate, cancellationToken);
+            
+            return Ok(depremler);
+        }
+        catch (HttpRequestException)
+        {
+            return StatusCode(503, "Deprem verileri alınamadı. Lütfen daha sonra tekrar deneyin.");
+        }
     }
 }
