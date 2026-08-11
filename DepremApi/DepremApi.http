@@ -1,0 +1,6 @@
+@DepremApi_HostAddress = http://localhost:5173
+
+GET {{DepremApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
