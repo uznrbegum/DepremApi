@@ -1,7 +1,4 @@
-// Accept GET request, call DepremService, send response to frontend
-
 using DepremApi.Services;
-using DepremApi.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DepremApi.Controllers;
@@ -18,7 +15,7 @@ public class DepremController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> DepremleriGetirAsync(
+    public async Task<IActionResult> DepremleriGetir(
         [FromQuery] string? startDate,
         [FromQuery] string? endDate,
         [FromQuery] double? minMagnitude,
@@ -26,24 +23,15 @@ public class DepremController : ControllerBase
         [FromQuery] string? location,
         CancellationToken cancellationToken)
     {
-        try
-        {
-            var depremler =
-                await _depremService.DepremleriGetirAsync(
-                    startDate,
-                    endDate,
-                    minMagnitude,
-                    maxMagnitude,
-                    location,
-                    cancellationToken);
+        var depremler =
+            await _depremService.DepremleriDbdenGetirAsync(
+                startDate,
+                endDate,
+                minMagnitude,
+                maxMagnitude,
+                location,
+                cancellationToken);
 
-            return Ok(depremler);
-        }
-        catch (HttpRequestException)
-        {
-            return StatusCode(
-                503,
-                "Deprem verileri alınamadı. Lütfen daha sonra tekrar deneyin.");
-        }
+        return Ok(depremler);
     }
 }

@@ -6,6 +6,9 @@ using System.Text.Json.Serialization;
 // DTO = Data Transfer Object
 public class DepremDto
 {
+    [JsonPropertyName("eventID")]
+    public string? EventId { get; set; }
+    
     [JsonPropertyName("location")]
     public string? Konum { get; set; }
 
